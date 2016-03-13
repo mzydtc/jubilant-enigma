@@ -7,8 +7,13 @@
             $this->assign('username', $username); // 显示登录的用户名
         
             $l = M('List_by_' . $username . '');
-            $data = $l->order('time desc')->where('stat=0')->select(); // 根据邮件发送时间降序查询
-            $this->assign('data', $data);
+            //$data = $l->order('time desc')->where('stat=0')->select(); // 根据邮件发送时间降序查询
+            //$this->assign('data', $data);
+            
+            $pageArr = pageDiv($l, 'stat=0', '封邮件', 'time desc');
+
+            $this->assign('data', $pageArr['list']);
+            $this->assign('page',$pageArr['show']);
             $this->display();
         }
         
@@ -18,8 +23,12 @@
             $this->assign('username', $username); // 显示登录的用户名
         
             $l = M('List_by_' . $username . '');
-            $data = $l->order('time desc')->where('stat=1')->select(); // 根据邮件发送时间降序查询
-            $this->assign('data', $data);
+            //$data = $l->order('time desc')->where('stat=1')->select(); // 根据邮件发送时间降序查询
+
+            $pageArr = pageDiv($l, 'stat=1', '封邮件', 'time desc');
+
+            $this->assign('data', $pageArr['list']);
+            $this->assign('page',$pageArr['show']);
             $this->display();
         }
         
@@ -29,8 +38,13 @@
             $this->assign('username', $username); // 显示登录的用户名
         
             $l = M('List_by_' . $username . '');
-            $data = $l->order('time desc')->where('stat=2')->select(); // 根据邮件发送时间降序查询
-            $this->assign('data', $data);
+            //$data = $l->order('time desc')->where('stat=2')->select(); // 根据邮件发送时间降序查询
+            //$this->assign('data', $data);
+            
+            $pageArr = pageDiv($l, 'stat=2', '封邮件', 'time desc');
+
+            $this->assign('data', $pageArr['list']);
+            $this->assign('page',$pageArr['show']);
             $this->display();
         }
         

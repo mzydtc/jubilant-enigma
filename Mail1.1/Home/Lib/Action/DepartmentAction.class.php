@@ -9,8 +9,13 @@
 			sess();
 			$d = M('Department');
 
-			$data = $d->order('createtime desc')->select();
-			$this->assign('data', $data);
+			//$data = $d->order('createtime desc')->select();
+			//$this->assign('data', $data);
+			
+			$pageArr = pageDiv($d, '', '个部门', 'createtime desc');
+
+            $this->assign('data', $pageArr['list']);
+            $this->assign('page',$pageArr['show']);
 			$this->display();
 		}
 

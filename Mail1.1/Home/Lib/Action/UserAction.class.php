@@ -42,8 +42,13 @@
             sess();
             $u = M('User');
             
-            $data = $u->order('registertime desc')->select();
-            $this->assign('data', $data);
+            //$data = $u->order('registertime desc')->select();
+            //$this->assign('data', $data);
+            
+            $pageArr = pageDiv($u, '', '位用户', 'registertime desc');
+
+            $this->assign('data', $pageArr['list']);
+            $this->assign('page',$pageArr['show']);
             $this->display();
         }
         
