@@ -1,0 +1,16 @@
+[ 2016-03-11T08:17:46+08:00 ] ERR: (ThinkException) 非法操作:sendBox
+[ 2016-03-11T08:44:00+08:00 ] ERR: (ThinkException) 非法操作:login
+[ 2016-03-11T08:53:00+08:00 ] ERR: (ThinkException) 非法操作:__APP__
+[ 2016-03-11T09:26:13+08:00 ] ERR: (ThinkException) 非法操作:main
+[ 2016-03-11T11:22:27+08:00 ] ERR: (ThinkException) 非法操作:garbageBox
+[ 2016-03-11T11:22:57+08:00 ] ERR: (ThinkException) 非法操作:main
+[ 2016-03-11T11:23:06+08:00 ] ERR: (ThinkException) 非法操作:main
+[ 2016-03-11T11:32:21+08:00 ] ERR: (ThinkException) 非法操作:main
+[ 2016-03-11T13:58:11+08:00 ] ERR: (ThinkException) 非法操作:main
+[ 2016-03-11T14:18:42+08:00 ] ERR: (ThinkException) 模板不存在[./Home/Tpl/ListByUser/sendDetail.html]
+[ 2016-03-11T14:20:00+08:00 ] ERR: (ThinkException) 模板不存在[./Home/Tpl/ListByUser/sendDetail.html]
+[ 2016-03-11T14:20:06+08:00 ] ERR: (ThinkException) 模板不存在[./Home/Tpl/ListByUser/sendDetail.html]
+[ 2016-03-11T16:18:50+08:00 ] ERR: (ThinkException) 非法操作:main
+[ 2016-03-11T21:46:48+08:00 ] ERR: (ThinkException) 非法操作:addUser
+[ 2016-03-11T21:46:52+08:00 ] ERR: (ThinkException) 非法操作:addUser
+[ 2016-03-11T22:06:17+08:00 ] ERR: (ThinkException) 非法操作:addUser

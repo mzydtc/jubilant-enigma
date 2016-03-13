@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>邮件详情</title>
+<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.min.css">
+<script src="__PUBLIC__/js/bootstrap.min.js"></script>
+</head>
+<body>
+<volist name="data" id="detail">
+	<div class="panel panel-default">
+   		<ul class="list-group">
+      		<li class="list-group-item">发件人：{$detail.revfrom}</li>
+      		<li class="list-group-item">接收时间：{$detail.time}</li>
+      		<li class="list-group-item">标题：{$detail.title}</li>
+      		<li class="list-group-item">附件：<a href="__APP__/Index/fileDownload?filename={$filename}">{$detail.filename}</a></li>
+   		</ul>
+   		<div class="panel-heading">正文</div>
+      	<div class="panel-body">
+         	<p>{$detail.content}</p>
+   		</div>
+	</div>
+</volist>
+</body>
+</html>

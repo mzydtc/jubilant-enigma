@@ -1,0 +1,6 @@
+[ 2016-03-13T13:34:24+08:00 ] ERR: (ThinkException) 非法操作:_PUBLIC
+[ 2016-03-13T13:34:33+08:00 ] ERR: (ThinkException) 非法操作:_PUBLIC
+[ 2016-03-13T13:34:35+08:00 ] ERR: (ThinkException) 非法操作:_PUBLIC
+[ 2016-03-13T14:26:26+08:00 ] ERR: (ThinkException) 无法加载模块:favicon
+[ 2016-03-13T14:26:27+08:00 ] ERR: (ThinkException) 无法加载模块:favicon
+[ 2016-03-13T14:27:22+08:00 ] ERR: (ThinkException) 无法加载模块:favicon

@@ -1,0 +1,28 @@
+[ 2016-03-10T11:08:18+08:00 ] 127.0.0.1 /zend/Mail1.1/index.php
+INFO: [ app_begin ] --START--
+INFO: Run ReadHtmlCache Behavior [ RunTime:0.001461s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001583s ]
+INFO: [ view_parse ] --START--
+INFO: Run ParseTemplate Behavior [ RunTime:0.020534s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.020671s ]
+INFO: [ view_filter ] --START--
+INFO: Run ContentReplace Behavior [ RunTime:0.001468s ]
+INFO: Run TokenBuild Behavior [ RunTime:0.001386s ]
+INFO: Run WriteHtmlCache Behavior [ RunTime:0.000774s ]
+INFO: Run ShowRuntime Behavior [ RunTime:0.000950s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.004849s ]
+INFO: [ view_end ] --START--
+INFO: Run ShowPageTrace Behavior [ RunTime:0.000983s ]
+INFO: [ view_end ] --END-- [ RunTime:0.001054s ]
+
+[ 2016-03-10T13:22:33+08:00 ] ERR: (ThinkException) 模板不存在[./Home/Tpl/User/index.html]
+[ 2016-03-10T13:31:21+08:00 ] ERR: (ThinkException) 非法操作:User
+[ 2016-03-10T13:31:53+08:00 ] ERR: (ThinkException) 非法操作:User
+[ 2016-03-10T14:12:43+08:00 ] ERR: (ThinkException) 非法操作:checkLogin
+[ 2016-03-10T14:42:55+08:00 ] ERR: (ThinkException) 非法操作:User
+[ 2016-03-10T16:31:28+08:00 ] ERR: (ThinkException) 模板不存在[./Home/Tpl/Index/revBox.html]
+[ 2016-03-10T16:31:33+08:00 ] ERR: (ThinkException) 模板不存在[./Home/Tpl/Index/revBox.html]
+[ 2016-03-10T16:31:34+08:00 ] ERR: (ThinkException) 模板不存在[./Home/Tpl/Index/revBox.html]
+[ 2016-03-10T18:47:38+08:00 ] ERR: (ThinkException) 模板不存在[./Home/Tpl/User/revBox.html]
+[ 2016-03-10T19:49:09+08:00 ] ERR: (ThinkException) 非法操作:Index
+[ 2016-03-10T19:59:36+08:00 ] ERR: (ThinkException) 非法操作:5

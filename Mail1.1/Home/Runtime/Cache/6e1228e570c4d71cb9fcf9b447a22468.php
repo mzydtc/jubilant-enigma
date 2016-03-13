@@ -1,0 +1,87 @@
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../favicon.ico">
+    <title>邮箱</title>
+    <link href="__PUBLIC__/Css/bootstrap.min.css" rel="stylesheet">
+    <link href="__PUBLIC__/Css/dashboard.css" rel="stylesheet">
+    <script src="__PUBLIC__/js/ie-emulation-modes-warning.js"></script>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">邮箱</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href>当前用户：<?php echo ($username); ?></a></li>
+            <li><a href="__APP__/Index/exitLogin">退出登录</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li id="new" class=""><a href="#" name="new" onclick="active(this.name)">新邮件</a></li>
+            <li id="recv" class=""><a href="#" name="recv" onclick="active(this.name)">收件箱</a></li>
+            <li id="send" class=""><a href="#" name="send" onclick="active(this.name)">发件箱</a></li>
+            <li id="trash" class=""><a href="#" name="trash" onclick="active(this.name)">垃圾箱</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 id="title" class="page-header">欢迎使用</h1>
+          <div class="row placeholders">
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <Iframe id="frame" src="__APP__/Index/welcome" width="1000" height="500" scrolling="no"
+                      valign="center"align="left" frameborder="0"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="__PUBLIC__/js/jquery-2.2.0.js"></script>
+    <script src="__PUBLIC__/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="__PUBLIC__/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="__PUBLIC__/js/ie10-viewport-bug-workaround.js"></script>
+    <script type="text/javascript">
+      function active(name){
+        var old=name
+        $("li") .each(function(){
+          $(this).removeClass("active");
+        }); 
+        var name = "#"+name
+        $(name).addClass("active")
+        $("#title").html($(name).text())
+        if(old=="new"){
+          $("#frame").attr("src","__APP__/Index/sendMail")
+        }
+        else if(old=="recv"){
+          $("#frame").attr("src","__APP__/ListByUser/revBox")
+        }
+        else if(old=="send"){
+          $("#frame").attr("src","__APP__/ListByUser/sendBox")
+        }
+        else if(old=="trash"){
+          $("#frame").attr("src","__APP__/ListByUser/garbageBox")
+        }
+      }
+    </script>
+  </body>
+</html>
