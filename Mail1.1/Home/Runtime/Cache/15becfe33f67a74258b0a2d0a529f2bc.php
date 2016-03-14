@@ -23,5 +23,6 @@
             	   /<a href="__APP__/User/modiUser/id/<?php echo ($user["id"]); ?>/username/<?php echo ($user["username"]); ?>">修改</a></td>
             </tr><?php endforeach; endif; else: echo "" ;endif; ?>
         </table>
+     <table align="center"><tr><td>共<?php echo ($page); ?></td></tr></table>
 </body>
 </html>

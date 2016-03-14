@@ -14,5 +14,6 @@
 		    <td><?php echo ($mail["time"]); ?></td>
 		</tr><?php endforeach; endif; else: echo "" ;endif; ?>
 	</table>
+	<table align="center"><tr><td>共<?php echo ($page); ?></td></tr></table>
 </body>
 </html>

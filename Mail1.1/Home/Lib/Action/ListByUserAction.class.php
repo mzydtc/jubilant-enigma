@@ -6,11 +6,9 @@
             $username = sess(); // 得到session中的用户名
             $this->assign('username', $username); // 显示登录的用户名
         
-            $l = M('List_by_' . $username . '');
-            //$data = $l->order('time desc')->where('stat=0')->select(); // 根据邮件发送时间降序查询
-            //$this->assign('data', $data);
+            $l = M('List_by_' . $username);
             
-            $pageArr = pageDiv($l, 'stat=0', '封邮件', 'time desc');
+            $pageArr = page_div($l, 'stat=0', '封邮件', 'time desc');
 
             $this->assign('data', $pageArr['list']);
             $this->assign('page',$pageArr['show']);
@@ -22,10 +20,9 @@
             $username = sess(); // 得到session中的用户名
             $this->assign('username', $username); // 显示登录的用户名
         
-            $l = M('List_by_' . $username . '');
-            //$data = $l->order('time desc')->where('stat=1')->select(); // 根据邮件发送时间降序查询
+            $l = M('List_by_' . $username);
 
-            $pageArr = pageDiv($l, 'stat=1', '封邮件', 'time desc');
+            $pageArr = page_div($l, 'stat=1', '封邮件', 'time desc');
 
             $this->assign('data', $pageArr['list']);
             $this->assign('page',$pageArr['show']);
@@ -37,11 +34,9 @@
             $username = sess(); // 得到session中的用户名
             $this->assign('username', $username); // 显示登录的用户名
         
-            $l = M('List_by_' . $username . '');
-            //$data = $l->order('time desc')->where('stat=2')->select(); // 根据邮件发送时间降序查询
-            //$this->assign('data', $data);
+            $l = M('List_by_' . $username);
             
-            $pageArr = pageDiv($l, 'stat=2', '封邮件', 'time desc');
+            $pageArr = page_div($l, 'stat=2', '封邮件', 'time desc');
 
             $this->assign('data', $pageArr['list']);
             $this->assign('page',$pageArr['show']);
@@ -53,6 +48,7 @@
             $username = sess();
             $title = $_POST['title'];
             $sendto = $_POST['sendto'];
+            $sendto_arr = explode(";", $_POST['sendto']); // 用“;”符号分隔收件人表单提交的字符串
             $content = $_POST['content'];
         
             date_default_timezone_set('PRC');
@@ -64,35 +60,14 @@
             }
         
             $file_name = $_FILES['file']['name'];
+            //$file_name = iconv("utf-8", "gb2312", $file_name); // 处理文件名中含中文
             $file_tmp = $_FILES['file']['tmp_name'];
         
-            // 首先判断是否有附件
+            // 如果邮件不带附件
             if (empty($file_tmp)) {
-                $l1 = M('List_by_' . $username . '');
-                $data1['sendto'] = $sendto;
-                $data1['title'] = $title;
-                $data1['content'] = $content;
-                $data1['time'] = $time;
-                $data1['stat'] = 1;
-                $data1['attach'] = 0;
-                $data1['filename'] = '';
-                $res1 = $l1->add($data1);
-        
-                $l2 = M('List_by_' . $sendto . '');
-                $data2['revfrom'] = $username;
-                $data2['title'] = $title;
-                $data2['content'] = $content;
-                $data2['time'] = $time;
-                $data2['stat'] = 0;
-                $data2['attach'] = 0;
-                $data2['filename'] = '';
-                $res2 = $l2->add($data2);
-        
-                if ($res1 == false || $res2 == false) {
-                    $this->error('发送失败');
-                }
-        
-                $this->success('发送成功', '__APP__/ListByUser/sendBox', 5);
+                send_mail($username, $title, $sendto, $sendto_arr, $content, $time, 0, '');// 函数在common.php文件内定义
+    
+                $this->success('发送成功', '__APP__/ListByUser/sendBox', 1);
                 exit();
             }
         
@@ -100,73 +75,45 @@
             if (!is_uploaded_file($file_tmp)) {
                 $this->error('附件上传失败');
             }
-        
-            // 把文件转存到指定用户目录
-            $user_file_dir = iconv("utf-8", "gb2312",  $_SERVER['DOCUMENT_ROOT'] . "/MailFile/" . $sendto); //处理新建目录中含有中文
-        
-            // 如果用户目录存在则直接上传文件至该目录，否则新建用户目录
-            if (is_dir($user_file_dir)) {
-                if(!file_upload($file_name, $user_file_dir, $file_tmp)) {
-                    $this->error('发送失败');
+            
+            $user_file_dir = array(); // 用户文件目录
+            // 如果收件人数大于1
+            if (count($sendto_arr) > 1) {
+                for ($i=0; $i < (count($sendto_arr) - 1); $i++) { 
+                    $user_file_dir[] = iconv("utf-8", "gb2312",  $_SERVER['DOCUMENT_ROOT'] . "/MailFile/" . $sendto_arr[$i]); // 处理新建目录中含有中文
                 }
-        
-                $l1 = M('List_by_' . $username . '');
-                $data1['sendto'] = $sendto;
-                $data1['title'] = $title;
-                $data1['content'] = $content;
-                $data1['time'] = $time;
-                $data1['stat'] = 1;
-                $data1['attach'] = 1;
-                $data1['filename'] = $file_name;
-                $res1 = $l1->add($data1);
-        
-                $l2 = M('List_by_' . $sendto . '');
-                $data2['revfrom'] = $username;
-                $data2['title'] = $title;
-                $data2['content'] = $content;
-                $data2['time'] = $time;
-                $data2['stat'] = 0;
-                $data2['attach'] = 1;
-                $data2['filename'] = $file_name;
-                $res2 = $l2->add($data2);
-        
-                if ($res1 == false || $res2 == false) {
-                    $this->error('发送失败');
-                }
-        
-                $this->success('发送成功', '__APP__/ListByUser/sendBox', 5);
+            # code...
             } else {
-                mkdir($user_file_dir);
-                if(!file_upload($file_name, $user_file_dir, $file_tmp)) {
-                    $this->error('发送失败');
-                }
-        
-                $l1 = M('List_by_' . $username . '');
-                $data1['sendto'] = $sendto;
-                $data1['title'] = $title;
-                $data1['content'] = $content;
-                $data1['time'] = $time;
-                $data1['stat'] = 1;
-                $data1['attach'] = 1;
-                $data1['filename'] = $file_name;
-                $res1 = $l1->add($data1);
-        
-                $l2 = M('List_by_' . $sendto . '');
-                $data2['revfrom'] = $username;
-                $data2['title'] = $title;
-                $data2['content'] = $content;
-                $data2['time'] = $time;
-                $data2['stat'] = 0;
-                $data2['attach'] = 1;
-                $data2['filename'] = $file_name;
-                $res2 = $l2->add($data2);
-        
-                if ($res1 == false || $res2 == false) {
-                    $this->error('发送失败');
-                }
-        
-                $this->success('发送成功', '__APP__/ListByUser/sendBox', 5);
+                $user_file_dir[] = iconv("utf-8", "gb2312",  $_SERVER['DOCUMENT_ROOT'] . "/MailFile/" . $sendto_arr[0]);
             }
+
+            if (!move_uploaded_file($file_tmp, $_SERVER['DOCUMENT_ROOT'] . "/MailFile/" . iconv("utf-8", "gb2312", $file_name))){
+                $this->error('附件发送失败');
+            }   
+
+            for ($i = 0; $i < count($user_file_dir); $i++) { 
+                // 如果用户目录存在则直接上传文件至该目录，否则新建用户目录
+                if (is_dir($user_file_dir[$i])) {
+
+                    if(!file_upload($file_name, $user_file_dir[$i], $file_tmp)) {
+                        $this->error('发送失败');
+                    }
+
+                } else {
+
+                    mkdir($user_file_dir[$i]);
+
+                    if(!file_upload($file_name, $user_file_dir[$i], $file_tmp)) {
+                        $this->error('发送失败');
+                    }
+
+                }
+            }
+            unlink($_SERVER['DOCUMENT_ROOT'] . "/MailFile/" . iconv("utf-8", "gb2312", $file_name));
+
+            send_mail($username, $title, $sendto, $sendto_arr, $content, $time, 1, $file_name);
+
+            $this->success('发送成功', '__APP__/ListByUser/sendBox', 1);
         }
         
         // 执行放入垃圾箱与永久删除操作
@@ -177,7 +124,7 @@
             $username = sess(); // 得到session中的用户名
             $this->assign('username', $username); // 显示登录的用户名
         
-            $l = M('List_by_' . $username . '');
+            $l = M('List_by_' . $username);
         
             // 如果放入垃圾箱
             if ($oper == 'temp_del') {
@@ -206,7 +153,7 @@
             $username = sess(); // 得到session中的用户名
             $this->assign('username', $username); // 显示登录的用户名
             
-            $l = M('List_by_' . $username . '');
+            $l = M('List_by_' . $username);
             
             $data = $l->where("id=$id")->select();
             $this->assign('data', $data);
@@ -222,7 +169,7 @@
             $username = sess(); // 得到session中的用户名
             $this->assign('username', $username); // 显示登录的用户名
         
-            $l = M('List_by_' . $username . '');
+            $l = M('List_by_' . $username);
         
             $data = $l->where("id=$id")->select();
             $this->assign('data', $data);

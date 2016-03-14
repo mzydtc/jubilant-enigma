@@ -45,7 +45,7 @@
             //$data = $u->order('registertime desc')->select();
             //$this->assign('data', $data);
             
-            $pageArr = pageDiv($u, '', '位用户', 'registertime desc');
+            $pageArr = page_div($u, '', '位用户', 'registertime desc');
 
             $this->assign('data', $pageArr['list']);
             $this->assign('page',$pageArr['show']);
@@ -78,7 +78,7 @@
                     );";
             $create = mysql_query($sql);
             
-            if ($insert == false || $create == false) {
+            if (!$insert || !$create) {
                 $this->error('用户添加失败');
             }
             

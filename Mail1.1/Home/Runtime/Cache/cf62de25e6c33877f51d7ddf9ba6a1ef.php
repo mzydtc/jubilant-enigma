@@ -40,7 +40,7 @@
           <h1 id="title" class="page-header">欢迎使用</h1>
           <div class="row placeholders">
             <div class="col-xs-6 col-sm-3 placeholder">
-              <Iframe id="frame" src="__APP__/Index/welcome" width="800" height="400" scrolling="no"
+              <Iframe id="frame" src="__APP__/Index/welcome" width="1000" height="1000" scrolling="no"
                       valign="center"align="left" frameborder="0"></iframe>
             </div>
           </div>

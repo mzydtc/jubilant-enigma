@@ -15,5 +15,6 @@
 		    <td><a href="__URL__/operation/id/<?php echo ($mail["id"]); ?>/oper/perm_del">永久删除</a></td>
 		</tr><?php endforeach; endif; else: echo "" ;endif; ?>
 	</table>
+	<table align="center"><tr><td>共<?php echo ($page); ?></td></tr></table>
 </body>
 </html>
