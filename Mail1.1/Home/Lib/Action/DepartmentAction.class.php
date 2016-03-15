@@ -33,7 +33,7 @@
 				$this->error('添加失败');
 			}
 
-			$this->success('添加成功', '__APP__/Department/depEdit', 3);
+			$this->redirect('__APP__/Department/depEdit');
 		}
 
 		// 删除部门
@@ -48,7 +48,28 @@
 				$this->error('删除失败');
 			}
 
-			$this->success('删除成功', '__APP__/Department/depEdit', 3);
+			$this->redirect('__APP__/Department/depEdit');
+		}
+
+		public function depQueryToAddUser() {
+			sess();
+			$d = M('Department');
+
+			$data = $d->select();
+
+			$this->assign('data', $data);
+			$this->display('Index:addUser');
+		}
+
+		public function depQueryToSendMail() {
+			$username = sess();
+			$d = M('Department');
+
+			$data = $d->select();
+
+			$this->assign('username', $username);
+			$this->assign('data', $data);
+			$this->display('Index:sendMail');
 		}
 	}
 ?>

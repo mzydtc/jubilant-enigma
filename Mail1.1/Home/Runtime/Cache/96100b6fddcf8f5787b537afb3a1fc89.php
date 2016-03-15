@@ -9,12 +9,14 @@
 <body>
 	<form action="__APP__/User/addUserProcess" method="post" role="form">
 		<div class="form-group">
-			<label for="name">用户名</label>
        	    <input type="text" name="username" class="form-control" placeholder="请输入用户名" /><br/>
-       	    <label for="name">部&nbsp;&nbsp;&nbsp;&nbsp;门</label>
-            <input type="text" name="depname" class="form-control" placeholder="请输入所在部门"/><br/>
-	    <input type="submit" value="注册" class="btn btn-default btn-lg" />
+  		</div>
+        <div class="form-group">
+  			<select class="form-control" id="department" name="depname"> 
+        		<?php if(is_array($data)): $i = 0; $__LIST__ = $data;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$dep): $mod = ($i % 2 );++$i;?><option value="<?php echo ($dep["depname"]); ?>"><?php echo ($dep["depname"]); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
+  			</select>
 	    </div>
+	    <input type="submit" value="注册" class="btn btn-default btn-lg" />
 	</form>
 </body>
 </html>

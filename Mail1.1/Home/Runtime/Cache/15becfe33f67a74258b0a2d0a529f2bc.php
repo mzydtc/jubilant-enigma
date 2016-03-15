@@ -7,7 +7,7 @@
 <script src="__PUBLIC__/js/bootstrap.min.js"></script>
     <script>
 		function jump() {
-			window.location="__APP__/Index/addUser";
+			window.location="__APP__/Department/depQueryToAddUser";
 		}
     </script>
 </head>

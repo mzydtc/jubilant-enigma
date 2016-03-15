@@ -70,7 +70,7 @@
         $(name).addClass("active")
         $("#title").html($(name).text())
         if(old=="new"){
-          $("#frame").attr("src","__APP__/Index/sendMail")
+          $("#frame").attr("src","__APP__/Department/depQueryToSendMail")
         }
         else if(old=="recv"){
           $("#frame").attr("src","__APP__/ListByUser/revBox")

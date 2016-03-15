@@ -27,12 +27,12 @@ class IndexAction extends Action {
         $this->display();
     }
     
-    // 新邮件
+    /*// 新邮件
     public function sendMail() {
         $username = sess();
         $this->assign('username', $username);
         $this->display();
-    }
+    }*/
     
     // 退出登录
     public function exitLogin() {
@@ -69,13 +69,6 @@ class IndexAction extends Action {
         
         fclose($fp);
     }
-    
-    // 新增用户
-    public function addUser() {
-        sess();
-        $this->display();
-    }
-
 
     // 新增部门
     public function addDep() {

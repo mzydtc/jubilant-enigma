@@ -14,7 +14,12 @@
             
             $username = $_POST['username'];
             $password = $_POST['password'];
+            $save = $_POST['save'];
             
+            if ($save == "on") { // 如果勾选保存用户名
+                cookie('username', $username, (3600 * 24 * 10)); // 保存用户名cookie十天
+            }
+
             if (!empty($username) && !empty($password)) {
                 $data = $u->where("username='$username'")->field('username,password')->find();
                 if ($data['username'] == 'admin') {
@@ -82,7 +87,7 @@
                 $this->error('用户添加失败');
             }
             
-            $this->success('添加成功', '__APP__/User/userEdit', 1);
+            $this->redirect('__APP__/User/userEdit');
         }
         
         // 删除用户
@@ -101,7 +106,7 @@
                 $this->error('用户删除失败');
             }
             
-            $this->success('用户删除成功', '__APP__/User/userEdit', 3);
+            $this->redirect('__APP__/User/userEdit');
         }
 
         // 修改用户信息
@@ -146,7 +151,21 @@
                 $this->error('修改失败', '__APP__/User/userEdit', 3);
             }
 
-            $this->success('修改成功', '__APP__/User/userEdit', 3);
+            $this->redirect('__APP__/User/userEdit');
+        }
+
+        public function getUserByDep() {
+            $u = M('User');
+
+            $where['depname'] = $_GET['dep'];
+
+            $data = $u->where($where)->select();
+            $user_arr = array();
+            for ($i= 0; $i < count($data); $i++) { 
+                $user_arr[] = $data[$i]['username'];
+                # code...
+            }
+            $this->ajaxReturn($user_arr, '', 1);
         }
     }
 ?>
