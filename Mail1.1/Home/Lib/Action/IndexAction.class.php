@@ -4,6 +4,9 @@ class IndexAction extends Action {
     
     // 显示登录页面
     public function index(){
+        if (!is_dir($_SERVER['DOCUMENT_ROOT'] . '/MailFile')) {
+            mkdir($_SERVER['DOCUMENT_ROOT'] . '/MailFile');
+        }
         $this->display();
     }
     
@@ -26,13 +29,6 @@ class IndexAction extends Action {
         $this->assign('username', $username);
         $this->display();
     }
-    
-    /*// 新邮件
-    public function sendMail() {
-        $username = sess();
-        $this->assign('username', $username);
-        $this->display();
-    }*/
     
     // 退出登录
     public function exitLogin() {
@@ -75,4 +71,5 @@ class IndexAction extends Action {
         sess();
         $this->display();    
     }
+    
 }

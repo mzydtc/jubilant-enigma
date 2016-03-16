@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8">
 <title>新增用户</title>
-<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.min.css">
+<link rel="stylesheet" href="__PUBLIC__/Css/bootstrap.min.css">
 <script src="__PUBLIC__/js/bootstrap.min.js"></script>
 </head>
 <body>

@@ -87,7 +87,7 @@
                 $user_file_dir[] = iconv("utf-8", "gb2312",  $_SERVER['DOCUMENT_ROOT'] . "/MailFile/" . $sendto_arr[0]);
             }
 
-            if (!move_uploaded_file($file_tmp, $_SERVER['DOCUMENT_ROOT'] . "/MailFile/" . iconv("utf-8", "gb2312", $file_name))){
+            if (!move_uploaded_file($file_tmp, $_SERVER['DOCUMENT_ROOT'] . "/MailFile/" . iconv("utf-8", "gb2312", $file_name))) {
                 $this->error('附件发送失败');
             }   
 
@@ -115,34 +115,49 @@
 
             $this->success('发送成功', '__APP__/ListByUser/sendBox', 1);
         }
-        
-        // 执行放入垃圾箱与永久删除操作
-        public function operation() {
-            $id = $_GET['id']; // 邮件id
-            $oper = $_GET['oper']; // 执行的操作，放入垃圾箱或永久删除
-        
+
+        // 放入垃圾箱/永久删除
+        public function mailOper() {
             $username = sess(); // 得到session中的用户名
             $this->assign('username', $username); // 显示登录的用户名
-        
+            
             $l = M('List_by_' . $username);
-        
-            // 如果放入垃圾箱
-            if ($oper == 'temp_del') {
-                $data['stat'] = 2;
-                $res = $l->where("id=$id")->save($data);
-                if ($res == false) {
-                    $this->error('操作失败');
+
+            if ($_POST['oper'] == "放入垃圾箱") {
+
+                for ($i = 0; $i < count($_POST['select']); $i++) {
+                    $id = $_POST['select'][$i];
+                    $data['stat'] = 2;
+                    $res = $l->where("id=$id")->save($data);
+                    if ($res == false) {
+                        continue;
+                    }
                 }
-                $this->success('操作成功');
-            }
-        
-            // 如果点击永久删除链接
-            if ($oper == 'perm_del') {
-                $res = $l->where("id=$id")->delete();
-                if ($res == false) {
-                    $this->error('操作失败');
+                $this->success('操作完成');
+
+            } else if ($_POST['oper'] == "永久删除") {
+
+                for ($i = 0; $i < count($_POST['select']); $i++) {
+                    $id = $_POST['select'][$i];
+                    $res = $l->where("id=$id")->delete();
+                    if ($res == false) {
+                        continue;
+                    }
                 }
-                $this->success('操作成功');
+                $this->success('操作完成');
+
+            } else if ($_POST['oper'] == "恢复") {
+
+                for ($i = 0; $i < count($_POST['select']); $i++) {
+                    $id = $_POST['select'][$i];
+                    $data['stat'] = 0;
+                    $res = $l->where("id=$id")->save($data);
+                    if ($res == false) {
+                        continue;
+                    }
+                }
+                $this->success('操作完成');
+
             }
         }
         

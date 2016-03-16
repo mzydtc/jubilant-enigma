@@ -50,7 +50,7 @@
             //$data = $u->order('registertime desc')->select();
             //$this->assign('data', $data);
             
-            $pageArr = page_div($u, '', '位用户', 'registertime desc');
+            $pageArr = page_div($u, '', '位用户', 'convert(username using gbk) asc');
 
             $this->assign('data', $pageArr['list']);
             $this->assign('page',$pageArr['show']);
@@ -94,19 +94,20 @@
         public function delUser() {
             $u = M('User');
             
-            $id = $_GET['id'];
-            $username = $_GET['username'];
-            
-            $res = $u->where("id=$id")->delete();
-            
-            $sql = "drop table mail_list_by_" . $username . "";
-            $drop = mysql_query($sql);
-            
-            if ($res == false || $drop == false) {
-                $this->error('用户删除失败');
+            for ($i = 0; $i < count($_POST['select']); $i++) {
+                $arr[] = $_POST['select'][$i];
+                $arr = explode(",", $_POST['select'][$i]);
+
+                $res = $u->where("id=$arr[0]")->delete();
+                $sql = "drop table mail_list_by_" . $arr[1] . "";
+                $drop = mysql_query($sql);
+
+                if (!$res || !$drop) {
+                    continue;
+                }
             }
-            
             $this->redirect('__APP__/User/userEdit');
+            
         }
 
         // 修改用户信息
@@ -118,6 +119,9 @@
             $username = $_GET['username'];
 
             $data = $u->where("id=$id")->find();
+
+            $dep = R('Department/depQueryToModiUser'); // 得到Department模块depQueryToModiUser方法返回值
+            $this->assign('dep', $dep);
 
             $this->assign('id', $id);
             $this->assign('username', $username);

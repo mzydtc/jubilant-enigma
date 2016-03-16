@@ -3,28 +3,42 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8">
 <title>用户管理</title>
-<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.min.css">
+<link rel="stylesheet" href="__PUBLIC__/Css/bootstrap.min.css">
+<link rel="stylesheet" href="__PUBLIC__/Css/font.css">
 <script src="__PUBLIC__/js/bootstrap.min.js"></script>
-    <script>
-		function jump() {
-			window.location="__APP__/Department/depQueryToAddUser";
-		}
-    </script>
+<script>
+	function add() {
+		window.location="__APP__/Department/depQueryToAddUser";
+	}
+
+    function modi(val) {
+        window.location="__APP__/User/modiUser/id/" + val;
+        return false;
+    }
+   </script>
 </head>
 <body>
-	<button onclick="jump()" class="btn btn-default btn-lg">新增用户</button><br/><br/>
-        <table class="table table-striped" style="table-layout: fixed;">
-            <tr><th>用户名</th><th>部门</th><th>注册时间</th><th>操作</th></tr>
+	<button onclick="add()" class="btn btn-default btn-md">新增用户</button><br/><br/>
+    <form action="__APP__/User/delUser" method="post">
+        <table class="table table-striped" id="head">
+            <tr><th></th><th>用户名</th><th>部门</th><th>注册时间</th><td></td></tr>
             <volist name="data" id="user">
-            <tr>
+            <tr><td><input type="checkbox" name="select[]" value="{$user.id},{$user.username}," /></td>
             	<td>{$user.username}</td>
             	<td>{$user.depname}</td>
             	<td>{$user.registertime}</td>
-            	<td><a href="__APP__/User/delUser/id/{$user.id}/username/{$user.username}">删除</a>
-            	   /<a href="__APP__/User/modiUser/id/{$user.id}/username/{$user.username}">修改</a></td>
+                <td><button onclick="return modi({$user.id});" class="btn btn-default btn-sm">修改</button></td>
             </tr>
             </volist>
         </table>
-     <table align="center"><tr><td>共{$page}</td></tr></table>
+        <table align="left">
+            <tr>
+                <td><input type="submit" value="删除" name="oper" class="btn btn-default btn-sm" /></td>
+            </tr>
+        </table>
+        <table align="right">
+            <tr><td>共{$page}</td></tr>
+        </table>
+    </form>
 </body>
 </html>
