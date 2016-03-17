@@ -116,6 +116,75 @@
             $this->success('发送成功', '__APP__/ListByUser/sendBox', 1);
         }
 
+        // 转发
+        public function resend() {
+            $username = sess();
+
+            $id = $_GET['id'];
+            //$username = $_GET['username'];
+
+            $l = M('List_by_' . $username);
+
+            $data = $l->where("id=$id")->find();
+
+            $this->assign('revfrom', $data['revfrom']);
+            $this->assign('time', $data['time']);
+            $this->assign('title', $data['title']);
+            $this->assign('content', $data['content']);
+            $this->assign('filename', $data['filename']);
+            $urlfilename = urlencode($data['filename']);
+            $this->assign('urlfilename', $urlfilename);
+
+            $dep = R('Department/depQueryToResend');
+            $this->assign('dep', $dep);
+
+            $this->display();
+        }
+
+        public function resendProcess() {
+            $username = sess();
+            $title = $_POST['title'];
+            $sendto = $_POST['sendto'];
+            $sendto_arr = explode(";", $_POST['sendto']); // 用“;”符号分隔收件人表单提交的字符串
+            $content =$_POST['content'];
+            $file_name = urldecode($_GET['urlfilename']);
+
+            date_default_timezone_set('PRC');
+            $time = date('Y-m-d H:i:s');
+
+            if ($_POST['attach'] == 'select') {
+                $username = iconv('utf-8', 'gb2312', $username);
+                $file_name = iconv("utf-8", "gb2312", $file_name);
+                $source = $_SERVER['DOCUMENT_ROOT'] . "/MailFile/" . $username . "/" . $file_name;
+
+                if (!is_file($source)) {
+                    $this->error('附件不存在,发送失败');
+                }
+
+                for ($i = 0; $i < (count($sendto_arr) - 1); $i++) { 
+                    $sendto_arr[$i] = iconv('utf-8', 'gb2312', $sendto_arr[$i]);
+                    $des = $_SERVER['DOCUMENT_ROOT'] . "/MailFile/" . $sendto_arr[$i] . "/" . $file_name;
+                    copy($source, $des);
+                }
+
+                $arr = array();
+                for ($i = 0; $i < (count($sendto_arr) - 1); $i++) {
+                    $sendto_arr[$i] = iconv("gb2312", "utf-8", $sendto_arr[$i]);
+                    $arr[] = $sendto_arr[$i];
+                }
+
+                $username = iconv("gb2312", "utf-8", $username);
+                $file_name = iconv("gb2312", "utf-8", $file_name);
+
+                resend_mail($username, $title, $sendto, $arr, $content, $time, 1, $file_name);
+            } else {
+                resend_mail($username, $title, $sendto, $sendto_arr, $content, $time, 0, '');
+            }
+
+            $this->success('发送成功', '__APP__/ListByUser/sendBox', 1);
+
+        }
+
         // 放入垃圾箱/永久删除
         public function mailOper() {
             $username = sess(); // 得到session中的用户名

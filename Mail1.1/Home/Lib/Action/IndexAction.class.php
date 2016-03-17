@@ -36,9 +36,15 @@ class IndexAction extends Action {
         $this->success('退出成功，返回登录页面中...', '__APP__/Index/index', 3);
     }
     
-    // 文件下载
+    // 收件箱文件下载
     public function fileDownload() {
-        $username = sess();
+        $stat = $_GET['stat'];
+        if ($stat == 0) { // 如果文件存放在本人文件夹内
+            $username = sess();
+        } else if($stat == 1) { // 如果文件存放在收件人文件夹内
+            $username_arr = explode(";", $_GET['username']);
+            $username = $username_arr[0];
+        }
         $file_name = urldecode($_GET['filename']);
         $file_path = $_SERVER['DOCUMENT_ROOT'] . "/MailFile/" . $username . "/" . $file_name;
         

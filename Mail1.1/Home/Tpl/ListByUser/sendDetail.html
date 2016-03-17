@@ -13,13 +13,16 @@
       		<li class="list-group-item">收件人：{$detail.sendto}</li>
       		<li class="list-group-item">接收时间：{$detail.time}</li>
       		<li class="list-group-item">标题：{$detail.title}</li>
-      		<li class="list-group-item">附件：<a href="__APP__/Index/fileDownload?filename={$filename}">{$detail.filename}</a></li>
+      		<li class="list-group-item">附件：<a href="__APP__/Index/fileDownload?filename={$filename}&stat=1&username={$detail.sendto}">{$detail.filename}</a></li>
    		</ul>
    		<div class="panel-heading">正文</div>
       	<div class="panel-body">
          	<p>{$detail.content}</p>
    		</div>
 	</div>
+   <form action="__APP__/ListByUser/resend/id/{$detail.id}" method="post">
+      <input type="submit" value="转发" class="btn btn-default btn-lg" />
+   </form>
 </volist>
 </body>
 </html>

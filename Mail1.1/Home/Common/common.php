@@ -67,8 +67,9 @@
         $data2['stat'] = 0;
         $data2['attach'] = $attach;
         $data2['filename'] = $filename;
+            var_dump($sendto_arr);
         //$sendto = explode(";", $sendto); // 用“;”符号分隔收件人表单提交的字符串
-        for ($i = 0; $i < (count($sendto_arr) - 1); $i++) { 
+        for ($i = 0; $i < (count($sendto_arr) - 1); $i++) {
             $l2 = M('List_by_' . $sendto_arr[$i]); // 根据数组长度实例化收件人对象
             $res2 = $l2->add($data2);
             if (!res2) {
@@ -76,5 +77,47 @@
             }
             # code...
         }
-    }    
+
+    }
+
+    // 转发邮件函数
+    function resend_mail($username, $title, $sendto, $sendto_arr, $content, $time, $attach, $filename) {
+        $l1 = M('List_by_' . $username); // 实例化发件人对象
+
+        if (count($sendto_arr) == 1) {
+            $data1['sendto'] = $sendto_arr[0]; // 如果收件人数为1人，数据表以xxx表示
+        } else if (count($sendto_arr) > 1) {
+            $data1['sendto'] = $sendto; // 如果收件人数大于1，数据表以xxx;xxx;表示
+        }
+
+        $data1['title'] = $title;
+        //$data1['sendto'] = $sendto_arr; 
+        $data1['content'] = $content;
+        $data1['time'] = $time;
+        $data1['stat'] = 1;
+        $data1['attach'] = $attach; // 0为无附件，1为有附件
+        $data1['filename'] = $filename;
+        $res1 = $l1->add($data1);
+        if (!res1) {
+            $this->error('发送失败');
+        }
+
+        $data2['revfrom'] = $username;
+        $data2['title'] = $title;
+        $data2['content'] = $content;
+        $data2['time'] = $time;
+        $data2['stat'] = 0;
+        $data2['attach'] = $attach;
+        $data2['filename'] = $filename;
+        //$sendto = explode(";", $sendto); // 用“;”符号分隔收件人表单提交的字符串
+        for ($i = 0; $i < count($sendto_arr); $i++) {
+            $l2 = M('List_by_' . $sendto_arr[$i]); // 根据数组长度实例化收件人对象
+            $res2 = $l2->add($data2);
+            if (!res2) {
+                $this->error('发送失败');
+            }
+            # code...
+        }
+
+    }        
 ?>

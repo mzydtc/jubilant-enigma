@@ -78,6 +78,18 @@
 			$this->display('Index:sendMail');
 		}
 
+		public function depQueryToResend() {
+			$username = sess();
+			$d = M('Department');
+
+			$data = $d->select();
+			return $data;
+
+			//$this->assign('username', $username);
+			//$this->assign('data', $data);
+			//$this->display('ListByUser:resend');
+		}
+
 		// 通过隐藏域决定操作
     	public function hidJump() {
         	$oper = $_REQUEST['oper'];
@@ -88,5 +100,6 @@
             	$this->delDep();
         	}
     	}
+    	
 	}
 ?>

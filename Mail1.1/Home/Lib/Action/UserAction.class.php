@@ -87,6 +87,11 @@
                 $this->error('用户添加失败');
             }
             
+            // 创建用户附件文件夹
+            if (!is_dir($_SERVER['DOCUMENT_ROOT'] . "/MailFile/" . $data['username'])) {
+                mkdir($_SERVER['DOCUMENT_ROOT'] . "/MailFile/" . $data['username']);
+            }
+
             $this->redirect('__APP__/User/userEdit');
         }
         

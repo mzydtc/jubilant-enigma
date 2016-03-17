@@ -12,12 +12,15 @@
       		<li class="list-group-item">收件人：<?php echo ($detail["sendto"]); ?></li>
       		<li class="list-group-item">接收时间：<?php echo ($detail["time"]); ?></li>
       		<li class="list-group-item">标题：<?php echo ($detail["title"]); ?></li>
-      		<li class="list-group-item">附件：<a href="__APP__/Index/fileDownload?filename=<?php echo ($filename); ?>"><?php echo ($detail["filename"]); ?></a></li>
+      		<li class="list-group-item">附件：<a href="__APP__/Index/fileDownload?filename=<?php echo ($filename); ?>&stat=1&username=<?php echo ($detail["sendto"]); ?>"><?php echo ($detail["filename"]); ?></a></li>
    		</ul>
    		<div class="panel-heading">正文</div>
       	<div class="panel-body">
          	<p><?php echo ($detail["content"]); ?></p>
    		</div>
-	</div><?php endforeach; endif; else: echo "" ;endif; ?>
+	</div>
+   <form action="__APP__/ListByUser/resend/id/<?php echo ($detail["id"]); ?>" method="post">
+      <input type="submit" value="转发" class="btn btn-default btn-lg" />
+   </form><?php endforeach; endif; else: echo "" ;endif; ?>
 </body>
 </html>
