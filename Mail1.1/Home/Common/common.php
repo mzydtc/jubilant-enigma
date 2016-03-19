@@ -67,7 +67,6 @@
         $data2['stat'] = 0;
         $data2['attach'] = $attach;
         $data2['filename'] = $filename;
-            var_dump($sendto_arr);
         //$sendto = explode(";", $sendto); // 用“;”符号分隔收件人表单提交的字符串
         for ($i = 0; $i < (count($sendto_arr) - 1); $i++) {
             $l2 = M('List_by_' . $sendto_arr[$i]); // 根据数组长度实例化收件人对象

@@ -176,5 +176,56 @@
             }
             $this->ajaxReturn($user_arr, '', 1);
         }
+
+        public function getPass() {
+            $username = sess();
+            $origin = md5($_POST['origin']);
+            $password = $_POST['confirm'];
+
+            $u = M('User');
+            $where['username'] = $username;
+            $data = $u->where($where)->field("username,password")->find();
+            
+            $cmp = strcmp($origin, $data['password']);
+            
+            if ($cmp == 0) {
+                $this->ajaxReturn($data, "correct", 1);
+            } else {
+                $this->ajaxReturn($origin, "wrong", 0);
+            }
+        }
+
+        public function modiPassProcess() {
+            $newpass = $_POST['confirm'];
+            $username = sess();
+
+            $u = M('User');
+            $where['username'] = $username;
+            $data['password'] = md5($newpass);
+            $save = $u->where($where)->save($data);
+
+            if (!$save) {
+                $this->error('修改失败');
+            }
+            if ($username == 'admin') {
+                $this->success('修改成功', "__APP__/Index/background", 2);
+            } else {
+                $this->success('修改成功', "__APP__/Index/main", 2);
+            }
+        }
+
+        public function userSearch() {
+            $username = $_POST['rev'];
+
+            $u = M('User');
+            $where['username'] = $username;
+            $data = $u->where($where)->find();
+            if (!empty($data)) {
+                $this->ajaxReturn($data['username'], "correct", 1);
+            } else {
+                $this->ajaxReturn(0, "null", 0);
+            }
+        }
+
     }
 ?>

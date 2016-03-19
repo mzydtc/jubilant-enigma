@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="__PUBLIC__/Css/bootstrap.min.css">
 <link rel="stylesheet" href="__PUBLIC__/Css/font.css">
 <script src="__PUBLIC__/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/jquery.min.js"></script>
 </head>
 <body>
 <form action="__APP__/Department/hidJump" method="post" class="form-inline" role="form">
@@ -16,7 +17,7 @@
 </form>
 <form action="__APP__/Department/hidJump" method="post">
   <table class="table table-striped" id="head">
-    <tr><td></td><th>部门名称</th><th>创建时间</th></tr>
+    <tr><th></th><th>部门名称</th><th>创建时间</th></tr>
       <?php if(is_array($data)): $i = 0; $__LIST__ = $data;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$dep): $mod = ($i % 2 );++$i;?><tr><td><input type="checkbox" name="select[]" value="<?php echo ($dep["id"]); ?>" /></td>
           <td><?php echo ($dep["depname"]); ?></td>
           <td><?php echo ($dep["createtime"]); ?></td>
@@ -24,7 +25,7 @@
   </table>
   <table align="left">
     <tr>
-      <td><input type="submit" value="删除" name="oper" class="btn btn-default btn-sm" /></td>
+      <td><input type="submit" value="删除" name="oper" class="btn btn-default btn-sm" id="del" onclick="return"/></td>
     </tr>
   </table>
   <table align="right">
@@ -32,5 +33,22 @@
   </table>
   <input type="hidden" name="oper" value="del" />
 </form>
+<script>
+    $("#del").click(function() {
+        var num = $("input[type='checkbox']:checked").length;
+
+        if (num == 0) {
+            alert("请选择需要删除的用户"); 
+            return false;
+        } else {
+            var r = confirm("确认删除这些用户？");
+            if (r == true) {
+                return true;
+            } else {
+                return false;
+            }
+        } 
+    });
+  </script>
 </body>
 </html>

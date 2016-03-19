@@ -21,6 +21,9 @@
 	</div>
    <form action="__APP__/ListByUser/resend/id/<?php echo ($detail["id"]); ?>" method="post">
       <input type="submit" value="转发" class="btn btn-default btn-lg" />
+   </form>&nbsp;&nbsp;
+   <form action="__APP__/Index/reply/sendto/<?php echo ($detail["revfrom"]); ?>" method="post">
+      <input type="submit" value="回复" class="btn btn-default btn-lg" />
    </form><?php endforeach; endif; else: echo "" ;endif; ?>
 </body>
 </html>

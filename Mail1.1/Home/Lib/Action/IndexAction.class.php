@@ -33,7 +33,7 @@ class IndexAction extends Action {
     // 退出登录
     public function exitLogin() {
         session('username', null);
-        $this->success('退出成功，返回登录页面中...', '__APP__/Index/index', 3);
+        $this->success('退出成功，返回登录页面中...', '__APP__/Index/index', 2);
     }
     
     // 收件箱文件下载
@@ -76,6 +76,22 @@ class IndexAction extends Action {
     public function addDep() {
         sess();
         $this->display();    
+    }
+
+    // 回复邮件
+    public function reply() {
+        sess();
+        $sendto = $_GET['sendto'];
+
+        $this->assign('sendto', $sendto);
+        $this->display();
+    }
+
+
+    // 普通用户修改密码
+    public function modiPass() {
+        sess();
+        $this->display();
     }
     
 }

@@ -24,6 +24,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li><a href>当前用户：<?php echo ($username); ?></a></li>
+            <li id="modi" class=""><a href="#" name="modi" onclick="active(this.name)">修改密码</a></li>
             <li><a href="__APP__/Index/exitLogin">退出登录</a></li>
           </ul>
         </div>
@@ -62,24 +63,27 @@
     <script src="__PUBLIC__/js/ie10-viewport-bug-workaround.js"></script>
     <script type="text/javascript">
       function active(name){
-        var old=name
+        var old=name;
         $("li") .each(function(){
           $(this).removeClass("active");
         }); 
-        var name = "#"+name
-        $(name).addClass("active")
-        $("#title").html($(name).text())
+        var name = "#"+name;
+        $(name).addClass("active");
+        $("#title").html($(name).text());
         if(old=="new"){
-          $("#frame").attr("src","__APP__/Department/depQueryToSendMail")
+          $("#frame").attr("src","__APP__/Department/depQueryToSendMail");
         }
         else if(old=="recv"){
-          $("#frame").attr("src","__APP__/ListByUser/revBox")
+          $("#frame").attr("src","__APP__/ListByUser/revBox");
         }
         else if(old=="send"){
-          $("#frame").attr("src","__APP__/ListByUser/sendBox")
+          $("#frame").attr("src","__APP__/ListByUser/sendBox");
         }
         else if(old=="trash"){
-          $("#frame").attr("src","__APP__/ListByUser/garbageBox")
+          $("#frame").attr("src","__APP__/ListByUser/garbageBox");
+        }
+        else if(old=="modi"){
+          $("#frame").attr("src","__APP__/Index/modiPass");
         }
       }
     </script>

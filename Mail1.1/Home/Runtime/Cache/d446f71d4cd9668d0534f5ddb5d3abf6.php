@@ -19,7 +19,7 @@
 	</table>
 	<table align="left">
 		<tr>
-			<td><input type="submit" value="永久删除" name="oper" class="btn btn-default btn-sm" /></td>
+			<td><input type="submit" value="永久删除" name="oper" class="btn btn-default btn-sm" id="del" onclick="return"/></td>
 			<td>&nbsp;&nbsp;</td>
 			<td><input type="submit" value="恢复" name="oper" class="btn btn-default btn-sm" /></td>
 		</tr>
@@ -28,5 +28,22 @@
 		<tr><td>共<?php echo ($page); ?></td></tr>
 	</table>
 </form>
+<script>
+	$("#del").click(function() {
+		var num = $("input[type='checkbox']:checked").length;
+
+		if (num == 0) {
+			alert("请选择需要删除的文件"); 
+			return false;
+		} else {
+			var r = confirm("确认删除这些邮件？");
+			if (r == true) {
+				return true;
+			} else {
+				return false;
+			}
+		} 
+	});
+</script>
 </body>
 </html>

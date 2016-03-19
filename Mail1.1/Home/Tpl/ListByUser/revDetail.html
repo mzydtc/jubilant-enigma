@@ -22,6 +22,9 @@
 	</div>
    <form action="__APP__/ListByUser/resend/id/{$detail.id}" method="post">
       <input type="submit" value="转发" class="btn btn-default btn-lg" />
+   </form>&nbsp;&nbsp;
+   <form action="__APP__/Index/reply/sendto/{$detail.revfrom}" method="post">
+      <input type="submit" value="回复" class="btn btn-default btn-lg" />
    </form>
 </volist>
 </body>
