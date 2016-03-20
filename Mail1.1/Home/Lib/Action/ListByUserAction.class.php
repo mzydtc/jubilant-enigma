@@ -12,6 +12,12 @@
 
             $this->assign('data', $pageArr['list']);
             $this->assign('page',$pageArr['show']);
+
+            $where['read'] = 1;
+            $where['stat'] = 0;
+            $count = $l->where($where)->count();
+            $this->assign('count', $count);
+            
             $this->display();
         }
         
@@ -243,6 +249,11 @@
             $this->assign('data', $data);
             $filename = urlencode($data[0]['filename']);
             $this->assign('filename', $filename);
+
+            $where['id'] = $id;
+            $update['read'] = 0; // 点击链接讲read值改为0
+            $res = $l->where($where)->save($update); 
+
             $this->display();
         }
         

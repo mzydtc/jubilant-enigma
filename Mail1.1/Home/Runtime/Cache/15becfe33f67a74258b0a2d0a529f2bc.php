@@ -20,6 +20,11 @@
 </head>
 <body>
 	<button onclick="add()" class="btn btn-default btn-md">新增用户</button><br/><br/>
+    <select class="form-control" id="department"> 
+          <option>按部门查看</option>
+        <?php if(is_array($data)): $i = 0; $__LIST__ = $data;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$dep): $mod = ($i % 2 );++$i;?><option value="<?php echo ($dep["depname"]); ?>"><?php echo ($dep["depname"]); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
+        </select>
+        <br/>
     <form action="__APP__/User/delUser" method="post">
         <table class="table table-striped" id="head">
             <tr><th></th><th>用户名</th><th>部门</th><th>注册时间</th><td></td></tr>
@@ -54,6 +59,16 @@
                 return false;
             }
         } 
+    });
+
+    $("#department").change(function(){
+        //alert("1");
+        $("table").empty();
+        //alert($("#department")val());
+        $.post("__APP__/User/getUser", {depname:$("#department").val()}, function(dep){
+            var d = JSON.stringify(dep);
+            alert(dep);
+        });
     });
     </script>
 </body>

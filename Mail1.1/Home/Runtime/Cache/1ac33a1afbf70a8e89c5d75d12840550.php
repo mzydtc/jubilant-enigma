@@ -42,6 +42,17 @@
     	<select multiple class="form-control" id="personell"> 
   		</select>
   	</div>
+    <div class="col-lg-13">
+            <div class="input-group">
+               <input type="text" class="form-control" id="rev">
+               <span class="input-group-btn">
+                  <button class="btn btn-default" type="button" id="search">
+                     搜索
+                  </button>
+               </span>
+            </div><!-- /input-group -->
+         </div><!-- /.col-lg-6 -->
+         <p id="msg">&nbsp;</p>
   </form>
 </div>
 <script>
@@ -61,6 +72,21 @@
     //alert("fuck");
     var per_val = $("#personell").val();
     $("#sendto").val($("#sendto").val() + per_val + ";");
+  });
+  $("#search").click(function(){
+    if ($("#rev").val() == '') {
+      $("#msg").html("<font color='red' size='2'>&nbsp;&nbsp;不能为空</font>");
+      return;
+    }
+    $.post("__APP__/User/userSearch", {rev:$("#rev").val()}, function(user){
+      if (user.status == 1) {
+        //alert(user.data);
+        $("#personell").append("<option value='" + user.data + "'>" + user.data + "</option>");
+        $("#msg").html("&nbsp;");
+      } else {
+        $("#msg").html("<font color='red' size='2'>&nbsp;&nbsp;用户不存在</font>");
+      }
+    });
   });
 </script>
 </body>

@@ -12,7 +12,7 @@
 			$pageArr = page_div($d, '', '个部门', 'convert(depname using gbk) asc');
 
             $this->assign('data', $pageArr['list']);
-            $this->assign('page',$pageArr['show']);
+            $this->assign('page', $pageArr['show']);
 			$this->display();
 		}
 
@@ -26,7 +26,7 @@
 
 			$insert = $d->add($data);
 
-			if ($insert == false) {
+			if (!$insert) {
 				$this->error('添加失败');
 			}
 
@@ -40,7 +40,7 @@
 			for ($i = 0; $i < count($_POST['select']); $i++) {
                     $id = $_POST['select'][$i];
                     $res = $d->where("id=$id")->delete();
-                    if ($res == false) {
+                    if (!$res) {
                         continue;
                     }
                 }
@@ -56,6 +56,16 @@
 
 			$this->assign('data', $data);
 			$this->display('Index:addUser');
+		}
+
+		public function depQueryToEditUser() {
+			sess();
+			$d = M('Department');
+
+			$data = $d->select();
+
+			$this->assign('data', $data);
+			$this->display('User:userEdit');
 		}
 
 		public function depQueryToModiUser() {

@@ -74,6 +74,7 @@
       if (user.status == 1) {
         //alert(user.data);
         $("#personell").append("<option value='" + user.data + "'>" + user.data + "</option>");
+        $("#msg").html("&nbsp;");
       } else {
         $("#msg").html("<font color='red' size='2'>&nbsp;&nbsp;用户不存在</font>");
       }

@@ -55,6 +55,7 @@
         $data1['stat'] = 1;
         $data1['attach'] = $attach; // 0为无附件，1为有附件
         $data1['filename'] = $filename;
+        $data1['read'] = 1; // 1为未读状态
         $res1 = $l1->add($data1);
         if (!res1) {
             $this->error('发送失败');
@@ -67,6 +68,7 @@
         $data2['stat'] = 0;
         $data2['attach'] = $attach;
         $data2['filename'] = $filename;
+        $data2['read'] = 1;
         //$sendto = explode(";", $sendto); // 用“;”符号分隔收件人表单提交的字符串
         for ($i = 0; $i < (count($sendto_arr) - 1); $i++) {
             $l2 = M('List_by_' . $sendto_arr[$i]); // 根据数组长度实例化收件人对象

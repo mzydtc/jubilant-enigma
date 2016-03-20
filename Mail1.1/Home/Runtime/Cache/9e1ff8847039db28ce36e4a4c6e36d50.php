@@ -11,10 +11,10 @@
 <body>
 <form action="__APP__/ListByUser/mailOper" method="post">
 	<table class="table table-striped" id="head">
-		<thead><tr><th></th><th>收件人</th><th>标题</th><th>发送时间</th></tr></thead>
+		<thead><tr><th></th><th>标题</th><th>收件人</th><th>发送时间</th></tr></thead>
 		<?php if(is_array($data)): $i = 0; $__LIST__ = $data;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$mail): $mod = ($i % 2 );++$i;?><tr><td><input type="checkbox" name="select[]" value="<?php echo ($mail["id"]); ?>" /></td>
-			<td><?php echo ($mail["sendto"]); ?></td>
 		    <td id="wrap" title="<?php echo ($mail["title"]); ?>"><a href="__APP__/ListByUser/sendDetail/id/<?php echo ($mail["id"]); ?>"><?php echo ($mail["title"]); ?></a></td>
+			<td><?php echo ($mail["sendto"]); ?></td>
 		    <td><?php echo ($mail["time"]); ?></td>
 		</tr><?php endforeach; endif; else: echo "" ;endif; ?>
 	</table>

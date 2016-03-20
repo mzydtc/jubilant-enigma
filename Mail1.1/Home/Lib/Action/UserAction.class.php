@@ -79,7 +79,8 @@
                     time datetime,
                     stat int(2),
                     attach int(2),
-                    filename varchar(120)
+                    filename varchar(120),
+                    read int(2)
                     );";
             $create = mysql_query($sql);
             
@@ -170,12 +171,22 @@
 
             $data = $u->where($where)->select();
             $user_arr = array();
-            for ($i= 0; $i < count($data); $i++) { 
+            for ($i = 0; $i < count($data); $i++) { 
                 $user_arr[] = $data[$i]['username'];
                 # code...
             }
             $this->ajaxReturn($user_arr, '', 1);
         }
+
+        public function getUser() {
+            $u = M('User');
+
+            $where['depname'] = $_POST['depname'];
+
+            $data = $u->where($where)->select();
+            $this->ajaxReturn($data, '', 1);
+        }
+
 
         public function getPass() {
             $username = sess();
@@ -218,7 +229,7 @@
             $username = $_POST['rev'];
 
             $u = M('User');
-            $where['username'] = $username;
+            $where['username'] = array('like', '%' . $username . '%');
             $data = $u->where($where)->find();
             if (!empty($data)) {
                 $this->ajaxReturn($data['username'], "correct", 1);
