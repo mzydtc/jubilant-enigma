@@ -1,0 +1,4 @@
+[ 2016-03-16T00:22:28+08:00 ] ERR: (ThinkException) 无法加载模块:favicon
+[ 2016-03-16T00:23:39+08:00 ] ERR: (ThinkException) 无法加载模块:favicon
+[ 2016-03-16T16:09:01+08:00 ] ERR: (ThinkException) 非法操作:hidJump
+[ 2016-03-16T19:53:02+08:00 ] ERR: (ThinkException) Action:select您所请求的方法不存在！

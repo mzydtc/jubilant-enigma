@@ -14,7 +14,12 @@
             
             $username = $_POST['username'];
             $password = $_POST['password'];
+            $save = $_POST['save'];
             
+            if ($save == "on") { // 如果勾选保存用户名
+                cookie('username', $username, (3600 * 24 * 10)); // 保存用户名cookie十天
+            }
+
             if (!empty($username) && !empty($password)) {
                 $data = $u->where("username='$username'")->field('username,password')->find();
                 if ($data['username'] == 'admin') {
@@ -45,7 +50,7 @@
             //$data = $u->order('registertime desc')->select();
             //$this->assign('data', $data);
             
-            $pageArr = pageDiv($u, '', '位用户', 'registertime desc');
+            $pageArr = page_div($u, '', '位用户', 'convert(username using gbk) asc');
 
             $this->assign('data', $pageArr['list']);
             $this->assign('page',$pageArr['show']);
@@ -74,34 +79,41 @@
                     time datetime,
                     stat int(2),
                     attach int(2),
-                    filename varchar(120)
+                    filename varchar(120),
+                    read int(2)
                     );";
             $create = mysql_query($sql);
             
-            if ($insert == false || $create == false) {
+            if (!$insert || !$create) {
                 $this->error('用户添加失败');
             }
             
-            $this->success('添加成功', '__APP__/User/userEdit', 1);
+            // 创建用户附件文件夹
+            if (!is_dir($_SERVER['DOCUMENT_ROOT'] . "/MailFile/" . $data['username'])) {
+                mkdir($_SERVER['DOCUMENT_ROOT'] . "/MailFile/" . $data['username']);
+            }
+
+            $this->redirect('__APP__/User/userEdit');
         }
         
         // 删除用户
         public function delUser() {
             $u = M('User');
             
-            $id = $_GET['id'];
-            $username = $_GET['username'];
-            
-            $res = $u->where("id=$id")->delete();
-            
-            $sql = "drop table mail_list_by_" . $username . "";
-            $drop = mysql_query($sql);
-            
-            if ($res == false || $drop == false) {
-                $this->error('用户删除失败');
+            for ($i = 0; $i < count($_POST['select']); $i++) {
+                $arr[] = $_POST['select'][$i];
+                $arr = explode(",", $_POST['select'][$i]);
+
+                $res = $u->where("id=$arr[0]")->delete();
+                $sql = "drop table mail_list_by_" . $arr[1] . "";
+                $drop = mysql_query($sql);
+
+                if (!$res || !$drop) {
+                    continue;
+                }
             }
+            $this->redirect('__APP__/User/userEdit');
             
-            $this->success('用户删除成功', '__APP__/User/userEdit', 3);
         }
 
         // 修改用户信息
@@ -113,6 +125,9 @@
             $username = $_GET['username'];
 
             $data = $u->where("id=$id")->find();
+
+            $dep = R('Department/depQueryToModiUser'); // 得到Department模块depQueryToModiUser方法返回值
+            $this->assign('dep', $dep);
 
             $this->assign('id', $id);
             $this->assign('username', $username);
@@ -146,7 +161,82 @@
                 $this->error('修改失败', '__APP__/User/userEdit', 3);
             }
 
-            $this->success('修改成功', '__APP__/User/userEdit', 3);
+            $this->redirect('__APP__/User/userEdit');
         }
+
+        public function getUserByDep() {
+            $u = M('User');
+
+            $where['depname'] = $_GET['dep'];
+
+            $data = $u->where($where)->select();
+            $user_arr = array();
+            for ($i = 0; $i < count($data); $i++) { 
+                $user_arr[] = $data[$i]['username'];
+                # code...
+            }
+            $this->ajaxReturn($user_arr, '', 1);
+        }
+
+        public function getUser() {
+            $u = M('User');
+
+            $where['depname'] = $_POST['depname'];
+
+            $data = $u->where($where)->select();
+            $this->ajaxReturn($data, '', 1);
+        }
+
+
+        public function getPass() {
+            $username = sess();
+            $origin = md5($_POST['origin']);
+            $password = $_POST['confirm'];
+
+            $u = M('User');
+            $where['username'] = $username;
+            $data = $u->where($where)->field("username,password")->find();
+            
+            $cmp = strcmp($origin, $data['password']);
+            
+            if ($cmp == 0) {
+                $this->ajaxReturn($data, "correct", 1);
+            } else {
+                $this->ajaxReturn($origin, "wrong", 0);
+            }
+        }
+
+        public function modiPassProcess() {
+            $newpass = $_POST['confirm'];
+            $username = sess();
+
+            $u = M('User');
+            $where['username'] = $username;
+            $data['password'] = md5($newpass);
+            $save = $u->where($where)->save($data);
+
+            if (!$save) {
+                $this->error('修改失败');
+            }
+            if ($username == 'admin') {
+                $this->success('修改成功', "__APP__/Index/background", 2);
+            } else {
+                $this->success('修改成功', "__APP__/Index/main", 2);
+            }
+        }
+
+        public function userSearch() {
+            $username = $_POST['rev'];
+
+            $u = M('User');
+            $where['username'] = array('like', '%' . $username . '%');
+            $data = $u->where($where)->find();
+            if (!empty($data)) {
+                $this->ajaxReturn($data['username'], "correct", 1);
+            } else {
+                $this->ajaxReturn(0, "null", 0);
+            }
+        }
+
     }
 ?>

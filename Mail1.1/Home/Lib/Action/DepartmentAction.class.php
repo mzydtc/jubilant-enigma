@@ -8,14 +8,11 @@
 		public function depEdit() {
 			sess();
 			$d = M('Department');
-
-			//$data = $d->order('createtime desc')->select();
-			//$this->assign('data', $data);
 			
-			$pageArr = pageDiv($d, '', '个部门', 'createtime desc');
+			$pageArr = page_div($d, '', '个部门', 'convert(depname using gbk) asc');
 
             $this->assign('data', $pageArr['list']);
-            $this->assign('page',$pageArr['show']);
+            $this->assign('page', $pageArr['show']);
 			$this->display();
 		}
 
@@ -29,26 +26,90 @@
 
 			$insert = $d->add($data);
 
-			if ($insert == false) {
+			if (!$insert) {
 				$this->error('添加失败');
 			}
 
-			$this->success('添加成功', '__APP__/Department/depEdit', 3);
+			$this->redirect('__APP__/Department/depEdit');
 		}
 
 		// 删除部门
 		public function delDep() {
 			$d = M('Department');
+	
+			for ($i = 0; $i < count($_POST['select']); $i++) {
+                    $id = $_POST['select'][$i];
+                    $res = $d->where("id=$id")->delete();
+                    if (!$res) {
+                        continue;
+                    }
+                }
 
-			$id = $_GET['id'];
-
-			$del = $d->where("id=$id")->delete();
-
-			if (!del) {
-				$this->error('删除失败');
-			}
-
-			$this->success('删除成功', '__APP__/Department/depEdit', 3);
+			$this->redirect('__APP__/Department/depEdit');
 		}
+
+		public function depQueryToAddUser() {
+			sess();
+			$d = M('Department');
+
+			$data = $d->select();
+
+			$this->assign('data', $data);
+			$this->display('Index:addUser');
+		}
+
+		public function depQueryToEditUser() {
+			sess();
+			$d = M('Department');
+
+			$data = $d->select();
+
+			$this->assign('data', $data);
+			$this->display('User:userEdit');
+		}
+
+		public function depQueryToModiUser() {
+			sess();
+			$d = M('Department');
+
+			$data = $d->select();
+
+			return $data;
+		}
+
+		public function depQueryToSendMail() {
+			$username = sess();
+			$d = M('Department');
+
+			$data = $d->select();
+
+			$this->assign('username', $username);
+			$this->assign('data', $data);
+			$this->display('Index:sendMail');
+		}
+
+		public function depQueryToResend() {
+			$username = sess();
+			$d = M('Department');
+
+			$data = $d->select();
+			return $data;
+
+			//$this->assign('username', $username);
+			//$this->assign('data', $data);
+			//$this->display('ListByUser:resend');
+		}
+
+		// 通过隐藏域决定操作
+    	public function hidJump() {
+        	$oper = $_REQUEST['oper'];
+
+        	if ($oper == 'add') {
+            	$this->addDepProcess();
+        	} else if ($oper == 'del'){
+            	$this->delDep();
+        	}
+    	}
+    	
 	}
 ?>

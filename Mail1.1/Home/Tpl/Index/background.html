@@ -23,6 +23,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
+            <li id="modi" class=""><a href="#" name="modi" onclick="active(this.name)">修改密码</a></li>
             <li><a href="__APP__/Index/exitLogin">退出</a></li>
           </ul>
         </div>
@@ -40,7 +41,7 @@
           <h1 id="title" class="page-header">欢迎使用</h1>
           <div class="row placeholders">
             <div class="col-xs-6 col-sm-3 placeholder">
-              <Iframe id="frame" src="__APP__/Index/welcome" width="1000" height="1000" scrolling="no"
+              <Iframe id="frame" src="__APP__/User/userEdit" width="1000" height="1000" scrolling="no"
                       valign="center"align="left" frameborder="0"></iframe>
             </div>
           </div>
@@ -59,18 +60,21 @@
     <script src="__PUBLIC__/js/ie10-viewport-bug-workaround.js"></script>
     <script type="text/javascript">
       function active(name){
-        var old=name
+        var old=name;
         $("li") .each(function(){
           $(this).removeClass("active");
         }); 
-        var name = "#"+name
-        $(name).addClass("active")
-        $("#title").html($(name).text())
+        var name = "#"+name;
+        $(name).addClass("active");
+        $("#title").html($(name).text());
         if(old=="user"){
-          $("#frame").attr("src","__APP__/User/userEdit")
+          $("#frame").attr("src","__APP__/User/userEdit");
         }
         else if(old=="dep"){
-          $("#frame").attr("src","__APP__/Department/depEdit")
+          $("#frame").attr("src","__APP__/Department/depEdit");
+        }
+        else if(old=="modi"){
+          $("#frame").attr("src","__APP__/Index/modiPass");
         }
       }
     </script>

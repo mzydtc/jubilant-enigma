@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8">
 <title>邮件详情</title>
-<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.min.css">
+<link rel="stylesheet" href="__PUBLIC__/Css/bootstrap.min.css">
 <script src="__PUBLIC__/js/bootstrap.min.js"></script>
 </head>
 <body>
@@ -13,13 +13,19 @@
       		<li class="list-group-item">发件人：{$detail.revfrom}</li>
       		<li class="list-group-item">接收时间：{$detail.time}</li>
       		<li class="list-group-item">标题：{$detail.title}</li>
-      		<li class="list-group-item">附件：<a href="__APP__/Index/fileDownload?filename={$filename}">{$detail.filename}</a></li>
+      		<li class="list-group-item">附件：<a href="__APP__/Index/fileDownload?filename={$filename}&stat=0">{$detail.filename}</a></li>
    		</ul>
    		<div class="panel-heading">正文</div>
       	<div class="panel-body">
          	<p>{$detail.content}</p>
    		</div>
 	</div>
+   <form action="__APP__/ListByUser/resend/id/{$detail.id}" method="post">
+      <input type="submit" value="转发" class="btn btn-default btn-lg" />
+   </form>&nbsp;&nbsp;
+   <form action="__APP__/Index/reply/sendto/{$detail.revfrom}" method="post">
+      <input type="submit" value="回复" class="btn btn-default btn-lg" />
+   </form>
 </volist>
 </body>
 </html>

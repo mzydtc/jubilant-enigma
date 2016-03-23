@@ -3,23 +3,54 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8">
 <title>部门管理</title>
-<link rel="stylesheet" href="__PUBLIC__/css/bootstrap.min.css">
+<link rel="stylesheet" href="__PUBLIC__/Css/bootstrap.min.css">
+<link rel="stylesheet" href="__PUBLIC__/Css/font.css">
 <script src="__PUBLIC__/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/jquery.min.js"></script>
 </head>
 <body>
-  <form action="__APP__/Department/addDepProcess" method="post" class="form-inline" role="form">
-                    新增部门：<input type="text" class="form-control" name="depname" placeholder="请输入名称" />
-    <input type="submit" value="添加" class="btn btn-default btn-md" /><br/><br/>
-  </form>
-    <table class="table table-striped" style="table-layout: fixed;">
-      <tr><th>部门名称</th><th>创建时间</th><th>操作</th></tr>
-        <volist name="data" id="dep">
-         	<tr><td>{$dep.depname}</td>
-           		<td>{$dep.createtime}</td>
-           		<td><a href="__APP__/Department/delDep/id/{$dep.id}">删除</a></td>
-         	</tr>
-        </volist>
-    </table>
-  <table align="center"><tr><td>共{$page}</td></tr></table>
+<form action="__APP__/Department/hidJump" method="post" class="form-inline" role="form">
+  新增部门：
+  <input type="text" class="form-control" name="depname" placeholder="请输入名称" />
+  <input type="submit" value="添加" class="btn btn-default btn-md" /><br/><br/>
+  <input type="hidden" name="oper" value="add" />
+</form>
+<form action="__APP__/Department/hidJump" method="post">
+  <table class="table table-striped" id="head">
+    <tr><th></th><th>部门名称</th><th>创建时间</th></tr>
+      <volist name="data" id="dep">
+        <tr><td><input type="checkbox" name="select[]" value="{$dep.id}" /></td>
+          <td>{$dep.depname}</td>
+          <td>{$dep.createtime}</td>
+        </tr>
+      </volist>
+  </table>
+  <table align="left">
+    <tr>
+      <td><input type="submit" value="删除" name="oper" class="btn btn-default btn-sm" id="del" onclick="return"/></td>
+    </tr>
+  </table>
+  <table align="right">
+    <tr><td>共{$page}</td></tr>
+  </table>
+  <input type="hidden" name="oper" value="del" />
+</form>
+<script>
+    $("#del").click(function() {
+        var num = $("input[type='checkbox']:checked").length;
+
+        if (num == 0) {
+            alert("请选择需要删除的用户"); 
+            return false;
+        } else {
+            var r = confirm("确认删除这些用户？");
+            if (r == true) {
+                return true;
+            } else {
+                return false;
+            }
+        } 
+    });
+  </script>
 </body>
 </html>

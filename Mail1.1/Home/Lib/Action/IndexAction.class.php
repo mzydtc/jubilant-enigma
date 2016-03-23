@@ -4,6 +4,9 @@ class IndexAction extends Action {
     
     // 显示登录页面
     public function index(){
+        if (!is_dir($_SERVER['DOCUMENT_ROOT'] . '/MailFile')) {
+            mkdir($_SERVER['DOCUMENT_ROOT'] . '/MailFile');
+        }
         $this->display();
     }
     
@@ -27,22 +30,21 @@ class IndexAction extends Action {
         $this->display();
     }
     
-    // 新邮件
-    public function sendMail() {
-        $username = sess();
-        $this->assign('username', $username);
-        $this->display();
-    }
-    
     // 退出登录
     public function exitLogin() {
         session('username', null);
-        $this->success('退出成功，返回登录页面中...', '__APP__/Index/index', 3);
+        $this->success('退出成功，返回登录页面中...', '__APP__/Index/index', 2);
     }
     
-    // 文件下载
+    // 收件箱文件下载
     public function fileDownload() {
-        $username = sess();
+        $stat = $_GET['stat'];
+        if ($stat == 0) { // 如果文件存放在本人文件夹内
+            $username = sess();
+        } else if($stat == 1) { // 如果文件存放在收件人文件夹内
+            $username_arr = explode(";", $_GET['username']);
+            $username = $username_arr[0];
+        }
         $file_name = urldecode($_GET['filename']);
         $file_path = $_SERVER['DOCUMENT_ROOT'] . "/MailFile/" . $username . "/" . $file_name;
         
@@ -69,17 +71,27 @@ class IndexAction extends Action {
         
         fclose($fp);
     }
-    
-    // 新增用户
-    public function addUser() {
-        sess();
-        $this->display();
-    }
-
 
     // 新增部门
     public function addDep() {
         sess();
         $this->display();    
     }
+
+    // 回复邮件
+    public function reply() {
+        sess();
+        $sendto = $_GET['sendto'];
+
+        $this->assign('sendto', $sendto);
+        $this->display();
+    }
+
+
+    // 普通用户修改密码
+    public function modiPass() {
+        sess();
+        $this->display();
+    }
+    
 }
